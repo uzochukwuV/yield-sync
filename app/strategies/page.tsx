@@ -158,11 +158,11 @@ export default function StrategiesPage() {
                   variant="bordered"
                 >
                   <SelectItem key="all" >All Chains</SelectItem>
-                  {...mockChains.map((chain) => (
+                  {mockChains.map((chain) => (
                     <SelectItem key={chain.name}>
                       {chain.name}
                     </SelectItem>
-                  ))}
+                  )) as any}
                 </Select>
                 
                 <Select
