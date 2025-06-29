@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { 
   Card,
   CardBody,
-  CardHeader,
   Input,
   Button,
   Chip,
@@ -13,11 +12,11 @@ import {
   SelectItem,
   Tabs,
   Tab,
-  Divider
+
 } from '@heroui/react';
 import { 
   Search,
-  Filter,
+
   TrendingUp,
   Layers,
   Globe,
@@ -27,7 +26,6 @@ import {
 } from 'lucide-react';
 import { mockStrategies, mockChains } from '@/lib/mock-data';
 import { StrategyCard } from '@/components/strategy-card';
-import { Strategy } from '@/lib/types';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -50,7 +48,7 @@ export default function StrategiesPage() {
                          strategy.protocol.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          strategy.description.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesChain = selectedChain === 'all' || strategy.chain === selectedChain;
+    const matchesChain = selectedChain === 'all' || strategy.chains[0].chainName === selectedChain;
     const matchesCategory = selectedCategory === 'all' || strategy.category === selectedCategory;
     const matchesRisk = selectedRisk === 'all' || strategy.riskLevel === selectedRisk;
     
@@ -159,9 +157,9 @@ export default function StrategiesPage() {
                   onSelectionChange={(keys) => setSelectedChain(Array.from(keys)[0] as string || 'all')}
                   variant="bordered"
                 >
-                  <SelectItem key="all" value="all">All Chains</SelectItem>
-                  {mockChains.map((chain) => (
-                    <SelectItem key={chain.name} value={chain.name}>
+                  <SelectItem key="all" >All Chains</SelectItem>
+                  {...mockChains.map((chain) => (
+                    <SelectItem key={chain.name}>
                       {chain.name}
                     </SelectItem>
                   ))}
@@ -173,11 +171,11 @@ export default function StrategiesPage() {
                   onSelectionChange={(keys) => setSelectedCategory(Array.from(keys)[0] as string || 'all')}
                   variant="bordered"
                 >
-                  <SelectItem key="all" value="all">All Categories</SelectItem>
-                  <SelectItem key="lending" value="lending">Lending</SelectItem>
-                  <SelectItem key="liquidity" value="liquidity">Liquidity</SelectItem>
-                  <SelectItem key="staking" value="staking">Staking</SelectItem>
-                  <SelectItem key="yield" value="yield">Yield</SelectItem>
+                  <SelectItem key="all" className="all">All Categories</SelectItem>
+                  <SelectItem key="lending" className="lending">Lending</SelectItem>
+                  <SelectItem key="liquidity" className="liquidity">Liquidity</SelectItem>
+                  <SelectItem key="staking" className="staking">Staking</SelectItem>
+                  <SelectItem key="yield" className="yield">Yield</SelectItem>
                 </Select>
                 
                 <Select
@@ -186,10 +184,10 @@ export default function StrategiesPage() {
                   onSelectionChange={(keys) => setSelectedRisk(Array.from(keys)[0] as string || 'all')}
                   variant="bordered"
                 >
-                  <SelectItem key="all" value="all">All Risk Levels</SelectItem>
-                  <SelectItem key="low" value="low">Low Risk</SelectItem>
-                  <SelectItem key="medium" value="medium">Medium Risk</SelectItem>
-                  <SelectItem key="high" value="high">High Risk</SelectItem>
+                  <SelectItem key="all" className="all">All Risk Levels</SelectItem>
+                  <SelectItem key="low" className="low">Low Risk</SelectItem>
+                  <SelectItem key="medium" className="medium">Medium Risk</SelectItem>
+                  <SelectItem key="high" className="high">High Risk</SelectItem>
                 </Select>
               </div>
             </CardBody>

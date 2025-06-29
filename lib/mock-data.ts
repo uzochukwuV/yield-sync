@@ -10,15 +10,15 @@ export const mockStrategies: Strategy[] = [
     {
       "chainId": 84532,
       "chainName": "Base Sepolia",
-      "strategyAddress": "0x452Fc86D91620F1D23e07F02220ac2014B3d7ca7",
-      "routerAddress": "0x27aCE3BC6E548b0b5e0e566971f41a91bb202E2E",
+      "strategyAddress": "0xf1D72E025e9013445b4A767bc687f231a0520919",
+      "routerAddress": "0xa018DbBF743d9A7b5741e13c21152942A5947cB4",
       "isActive": true
     },
     {
       "chainId": 11155111,
       "chainName": "Etherum Sepolia",
-      "strategyAddress": "0x1F3Efc60eFB204945Ed3d0D07B4058923577Fbed",
-      "routerAddress": "0x3eCA665997892aAe512A2e38a1F924a9991c678B",
+      "strategyAddress": "0x29AD2b79A776Bb387083380C131868B2552B20a5",
+      "routerAddress": "0x6Cd3aB1D524467B7469b55Fa6FEe91Bc58c0BE4b",
       "isActive": true
     }
   ],

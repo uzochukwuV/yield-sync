@@ -350,7 +350,7 @@ export default function AdminPage() {
                             }}
                           >
                             {mockChains.map((chain) => (
-                              <SelectItem key={chain.id.toString()} value={chain.id.toString()}>
+                              <SelectItem key={chain.id.toString()} >
                                 {chain.name} ({chain.id})
                               </SelectItem>
                             ))}
@@ -438,7 +438,7 @@ export default function AdminPage() {
                             }}
                           >
                             {mockChains.map((chain) => (
-                              <SelectItem key={chain.id.toString()} value={chain.id.toString()}>
+                              <SelectItem key={chain.id.toString()} >
                                 {chain.name} ({chain.id})
                               </SelectItem>
                             ))}
@@ -526,7 +526,7 @@ export default function AdminPage() {
                             }}
                           >
                             {mockChains.map((chain) => (
-                              <SelectItem key={chain.id.toString()} value={chain.id.toString()}>
+                              <SelectItem key={chain.id.toString()} >
                                 {chain.name} ({chain.id})
                               </SelectItem>
                             ))}

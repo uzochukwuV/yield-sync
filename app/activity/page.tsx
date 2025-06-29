@@ -5,13 +5,10 @@ import { motion } from 'framer-motion';
 import { 
   Card,
   CardBody,
-  CardHeader,
   Chip,
   Button,
   Select,
   SelectItem,
-  Avatar,
-  Divider
 } from '@heroui/react';
 import { 
   Activity,
@@ -21,11 +18,11 @@ import {
   CheckCircle,
   XCircle,
   Loader,
-  TrendingUp,
   ArrowUpRight,
   ArrowDownLeft
 } from 'lucide-react';
 import { mockTransactions } from '@/lib/mock-data';
+
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -154,10 +151,10 @@ export default function ActivityPage() {
                   onSelectionChange={(keys) => setSelectedChain(Array.from(keys)[0] as string || 'all')}
                   variant="bordered"
                 >
-                  <SelectItem key="all" value="all">All Chains</SelectItem>
-                  <SelectItem key="Ethereum" value="Ethereum">Ethereum</SelectItem>
-                  <SelectItem key="Polygon" value="Polygon">Polygon</SelectItem>
-                  <SelectItem key="Optimism" value="Optimism">Optimism</SelectItem>
+                  <SelectItem key="all"  >All Chains</SelectItem>
+                  <SelectItem key="Ethereum" className="Ethereum">Ethereum</SelectItem>
+                  <SelectItem key="Polygon" className="Polygon">Polygon</SelectItem>
+                  <SelectItem key="Optimism" className="Optimism">Optimism</SelectItem>
                 </Select>
                 
                 <Select
@@ -166,11 +163,11 @@ export default function ActivityPage() {
                   onSelectionChange={(keys) => setSelectedType(Array.from(keys)[0] as string || 'all')}
                   variant="bordered"
                 >
-                  <SelectItem key="all" value="all">All Types</SelectItem>
-                  <SelectItem key="Add Liquidity" value="Add Liquidity">Add Liquidity</SelectItem>
-                  <SelectItem key="Supply" value="Supply">Supply</SelectItem>
-                  <SelectItem key="Withdraw" value="Withdraw">Withdraw</SelectItem>
-                  <SelectItem key="Claim" value="Claim">Claim</SelectItem>
+                  <SelectItem key="all" className="all">All Types</SelectItem>
+                  <SelectItem key="Add Liquidity" className="Add Liquidity">Add Liquidity</SelectItem>
+                  <SelectItem key="Supply" className="Supply">Supply</SelectItem>
+                  <SelectItem key="Withdraw" className="Withdraw">Withdraw</SelectItem>
+                  <SelectItem key="Claim" className="Claim">Claim</SelectItem>
                 </Select>
                 
                 <Select
@@ -179,10 +176,10 @@ export default function ActivityPage() {
                   onSelectionChange={(keys) => setSelectedStatus(Array.from(keys)[0] as string || 'all')}
                   variant="bordered"
                 >
-                  <SelectItem key="all" value="all">All Status</SelectItem>
-                  <SelectItem key="success" value="success">Success</SelectItem>
-                  <SelectItem key="pending" value="pending">Pending</SelectItem>
-                  <SelectItem key="failed" value="failed">Failed</SelectItem>
+                  <SelectItem key="all" className="all">All Status</SelectItem>
+                  <SelectItem key="success" className="success">Success</SelectItem>
+                  <SelectItem key="pending" className="pending">Pending</SelectItem>
+                  <SelectItem key="failed" className="failed">Failed</SelectItem>
                 </Select>
               </div>
             </CardBody>

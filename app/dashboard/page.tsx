@@ -208,7 +208,7 @@ export default function Dashboard() {
                           </div>
                           <div>
                             <p className="text-sm font-medium text-white">{strategy?.name}</p>
-                            <p className="text-xs text-gray-500">{strategy?.chain}</p>
+                            <p className="text-xs text-gray-500">{strategy?.chains[0].chainName}</p>
                           </div>
                         </div>
                         <div className="text-right">
@@ -264,7 +264,11 @@ export default function Dashboard() {
                   <TableBody>
                     {mockUserPositions.map((position) => {
                       const strategy = mockStrategies.find(s => s.id === position.strategyId);
-                      if (!strategy) return null;
+                      if (!strategy) return  <TableRow key={position.strategyId}>
+                        <TableCell colSpan={7} className="text-center text-gray-500">
+                          Strategy not found
+                        </TableCell>
+                      </TableRow>;
 
                       return (
                         <TableRow key={position.strategyId}>
@@ -280,7 +284,7 @@ export default function Dashboard() {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <span className="ondo-chip text-xs">{strategy.chain}</span>
+                            <span className="ondo-chip text-xs">{strategy.chains[0].chainName}</span>
                           </TableCell>
                           <TableCell>
                             <span className="font-medium text-white">${position.value.toLocaleString()}</span>
