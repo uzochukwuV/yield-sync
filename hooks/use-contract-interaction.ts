@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useCallback } from 'react';
-import { useAccount, useWriteContract, useReadContract } from 'wagmi';
-import { parseEther, formatEther } from 'viem';
+import { useAccount, useWriteContract } from 'wagmi';
+import { parseEther } from 'viem';
 import { ABIFunction, FunctionResult } from '@/lib/types';
 import { validateInput, isViewFunction, isPayableFunction } from '@/lib/abi-utils';
 import { toast } from 'sonner';
+import { write } from 'node:fs';
 
 export function useContractInteraction(contractAddress: string, abi: any[]) {
   const { address } = useAccount();
-  const { writeContract } = useWriteContract();
+  const { writeContractAsync } = useWriteContract();
   
   const [functionInputs, setFunctionInputs] = useState<Record<string, Record<string, any>>>({});
   const [results, setResults] = useState<Record<string, FunctionResult>>({});
@@ -96,20 +97,20 @@ export function useContractInteraction(contractAddress: string, abi: any[]) {
         }
 
         // Simulate transaction for now
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
+        const TxHash = await writeContractAsync(txConfig);
+         
 
         setResults(prev => ({
           ...prev,
           [funcName]: {
             type: 'transaction',
-            data: mockTxHash,
-            txHash: mockTxHash,
+            data: TxHash,
+            txHash: TxHash,
             timestamp: new Date().toLocaleTimeString()
           }
         }));
 
-        toast.success(`Transaction submitted: ${mockTxHash.slice(0, 10)}...`);
+        toast.success(`Transaction submitted: ${TxHash.slice(0, 10)}...`);
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';

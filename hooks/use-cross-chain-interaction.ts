@@ -7,8 +7,7 @@ import { Strategy, StrategyAction, CrossChainExecution, FunctionResult, Approval
 import { encodeActionParameters, validateParameterInput } from '@/lib/encoding-utils';
 import { mockChains } from '@/lib/mock-data';
 import { toast } from 'sonner';
-import { write } from 'node:fs';
-import { chainUID, getChainUID } from '@/lib/wagmi-config';
+import { getChainUID } from '@/lib/wagmi-config';
 
 export function useCrossChainInteraction() {
   const { address, chainId } = useAccount();
