@@ -1,0 +1,396 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    color-scheme: dark;
+  }
+  
+  html.light {
+    color-scheme: light;
+  }
+  
+  body {
+    @apply text-foreground font-inter;
+    min-height: 100vh;
+  }
+  
+  /* Dark theme (default) */
+  body {
+    background: #0a0a0a;
+    color: #ffffff;
+  }
+  
+  /* Light theme */
+  html.light body {
+    background: #ffffff;
+    color: #0a0a0a;
+  }
+}
+
+@layer components {
+  /* Dark theme styles (default) */
+  .ondo-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .ondo-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .ondo-hero-card {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(147, 51, 234, 0.08) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+  }
+
+  .ondo-strategy-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .ondo-strategy-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(34, 197, 94, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .ondo-button-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .ondo-button-primary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-1px);
+  }
+
+  .ondo-button-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #e5e7eb;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .ondo-button-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .ondo-table {
+    background: transparent;
+  }
+
+  .ondo-table-header {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .ondo-table-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background-color 0.15s ease;
+  }
+
+  .ondo-table-row:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .ondo-chip {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: #e5e7eb;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+  }
+
+  .ondo-chip-success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+
+  .ondo-chip-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+  }
+
+  .ondo-chip-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+
+  .ondo-metric-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .ondo-hero-section {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ondo-hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .ondo-text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ondo-text-accent {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ondo-nav {
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .ondo-nav-item {
+    color: #9ca3af;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .ondo-nav-item:hover {
+    color: #ffffff;
+  }
+
+  .ondo-nav-item.active {
+    color: #3b82f6;
+  }
+
+  .ondo-modal {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+  }
+
+  .ondo-modal-backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .ondo-modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .ondo-modal-body {
+    background: transparent;
+  }
+
+  .ondo-modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .ondo-input-wrapper {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .ondo-input-wrapper:hover {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .ondo-input-wrapper[data-focus="true"] {
+    border-color: rgba(59, 130, 246, 0.5) !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+  }
+
+  /* Light theme overrides */
+  html.light .ondo-card {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  html.light .ondo-card:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  html.light .ondo-strategy-card {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  html.light .ondo-strategy-card:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(34, 197, 94, 0.2);
+  }
+
+  html.light .ondo-button-secondary {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #374151;
+  }
+
+  html.light .ondo-button-secondary:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+
+  html.light .ondo-chip {
+    background: rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #374151;
+  }
+
+  html.light .ondo-metric-card {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  html.light .ondo-hero-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+  }
+
+  html.light .ondo-hero-section::before {
+    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  }
+
+  html.light .ondo-text-gradient {
+    background: linear-gradient(135deg, #0a0a0a 0%, #374151 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html.light .ondo-nav {
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  html.light .ondo-nav-item {
+    color: #6b7280;
+  }
+
+  html.light .ondo-nav-item:hover {
+    color: #0a0a0a;
+  }
+
+  html.light .ondo-modal {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  html.light .ondo-modal-backdrop {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  html.light .ondo-modal-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  html.light .ondo-modal-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  html.light .ondo-input-wrapper {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  }
+
+  html.light .ondo-input-wrapper:hover {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  html.light .ondo-table-header {
+    background: rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    color: #6b7280;
+  }
+
+  html.light .ondo-table-row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  html.light .ondo-table-row:hover {
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .sync-pulse {
+    animation: sync-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes sync-pulse {
+    0%, 100% { 
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+  }
+
+  .fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
