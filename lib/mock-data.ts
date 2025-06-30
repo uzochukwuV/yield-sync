@@ -2,7 +2,7 @@ import { Strategy, UserPosition, Transaction, PlatformMetrics, ChartData, Chain 
 
 export const mockStrategies: Strategy[] = [
   {
-  "id": "simple-vault",
+  "id": "simple-usdc-vault",
   "name": "Simple Multi-Asset Vault",
   "description": "Basic vault allowing deposits and withdrawals of supported ERC-20 tokens",
   "protocol": "Custom Vault",
@@ -10,15 +10,15 @@ export const mockStrategies: Strategy[] = [
     {
       "chainId": 84532,
       "chainName": "Base Sepolia",
-      "strategyAddress": "0xf1D72E025e9013445b4A767bc687f231a0520919",
-      "routerAddress": "0xa018DbBF743d9A7b5741e13c21152942A5947cB4",
+      "strategyAddress": "0x0687c557BcF088922Df1A54392c45BEdaDc8118F",
+      "routerAddress": "0x0b08a6b201D4Da4Ea3F40EA3156f303B7afB0e6a",
       "isActive": true
     },
     {
       "chainId": 11155111,
       "chainName": "Etherum Sepolia",
-      "strategyAddress": "0x29AD2b79A776Bb387083380C131868B2552B20a5",
-      "routerAddress": "0x6Cd3aB1D524467B7469b55Fa6FEe91Bc58c0BE4b",
+      "strategyAddress": "0xa018DbBF743d9A7b5741e13c21152942A5947cB4", //"0xd23a73375F06038B8EaC7FAbf0A14f6E571bBa2F",
+      "routerAddress": "0xe0d40a806723a0b4B1DcF8F2cEAB6f90D84Ce0Ed",
       "isActive": true
     }
   ],

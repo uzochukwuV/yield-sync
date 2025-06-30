@@ -197,7 +197,7 @@ contract Router is
     function _ccipReceive(
         Client.Any2EVMMessage memory any2EvmMessage
     ) internal override {
-        (address user, address strategy, uint64 action, address token, uint256 amount, bytes memory data) = 
+        (address user, address strategy, uint64 action, , uint256 amount, bytes memory data) = 
             abi.decode(any2EvmMessage.data, (address, address, uint64, address, uint256, bytes));
 
         receivedMessages++;
@@ -206,17 +206,20 @@ contract Router is
             return;
         }
 
+        address tokenA = any2EvmMessage.destTokenAmounts[0].token;
+        uint256 amountA = any2EvmMessage.destTokenAmounts[0].amount;
+
         // Approve token for strategy if needed
         
-        if (amount > 0) {
-            IERC20(token).approve(strategy, amount);
+        if (amountA == amount && amountA > 0) {
+            IERC20(tokenA).approve(strategy, amount);
         }
 
         // Execute strategy
         IYieldStrategy yieldStrategy = IYieldStrategy(strategy);
 
         
-        try yieldStrategy.executeFunction(user, action, data) {
+        try yieldStrategy.executeFunction(user, action, tokenA, amountA, data) {
             _emitSuccessEvent(any2EvmMessage, user, strategy, action);
         } catch Error(string memory reason) {
             _storeFailed(any2EvmMessage, user, strategy, action, data, reason);
@@ -325,7 +328,7 @@ contract Router is
             revert TooEarlyToRetry();
         }
 
-        try IYieldStrategy(failed.strategy).executeFunction(failed.user, failed.action, data) {
+        try IYieldStrategy(failed.strategy).executeFunction(failed.user, failed.action, failed.token, failed.amount, data) {
             failed.recovered = true;
             if (failed.amount > 0) {
                 balances[failed.user][failed.token] -= failed.amount;

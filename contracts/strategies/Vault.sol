@@ -18,6 +18,8 @@ contract Vault is IYieldStrategy {
     error Vault__FailedToDeposit(address to, uint256 amount);
     error Vault__FailedToWithdraw(address to, uint256 amount);
     error Invalid__Action(uint64 action);
+
+    event ExecutionSucess(bytes data);
     
 
     uint64 public constant DEPOSIT_ACTION = 1;
@@ -26,25 +28,29 @@ contract Vault is IYieldStrategy {
     function executeFunction(
         address sender,
         uint64 action,
+        address token,
+        uint256 amount,
         bytes calldata data
     ) external returns (bool success, bytes memory result){
+
         if(action == DEPOSIT_ACTION ){
-            (address token, uint256 amount) = abi.decode(data, (address, uint256));
-            if (token == address(0)) {
+            if (token == address(0) ) {
                 revert Vault__FailedToDeposit(address(0), amount);
             }
             deposit(sender, token, amount);
+            emit ExecutionSucess(data);
             return (true, "Success");
         }else if(action == WITHDRAW_ACTION) {
-            (address token, uint256 amount) = abi.decode(data, (address, uint256));
-            if (token == address(0)) {
+            if (token == address(0) ) {
                 revert Vault__FailedToWithdraw(address(0), amount);
             }
             withdraw(amount, token, sender);
+            emit ExecutionSucess(data);
             return (true, "Success");
         }else {
             revert Invalid__Action(action);
         }
+        
     }
 
     function getBalance(address user) public view returns (uint256) {

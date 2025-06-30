@@ -510,34 +510,39 @@ contract WeatherInsurance is FunctionsClient, AutomationCompatibleInterface, Own
      * @notice Chainlink Automation: Check if upkeep is needed
      */
     function checkUpkeep(
-        bytes calldata /* checkData */
+        bytes calldata checkData 
     ) external view override returns (bool upkeepNeeded, bytes memory performData) {
+        string memory stationId = string(checkData);
         upkeepNeeded = (block.timestamp - lastCheckTimestamp) > i_checkInterval && stationCount > 0;
-        performData = "";
+        performData = bytes(stationId);
     }
 
     /**
      * @notice Chainlink Automation: Perform upkeep
      */
-    function performUpkeep(bytes calldata   ) external override {
+    function performUpkeep(bytes calldata  performData ) external override {
         if ((block.timestamp - lastCheckTimestamp) > i_checkInterval && stationCount > 0) {
             lastCheckTimestamp = block.timestamp;
             
-            // Request weather data for each active station
-            for (uint i = 0; i < stationCount; i++) {
-                string memory stationId = stationIdByIndex[i];
-                if (activeStations[stationId]) {
-                    requestWeatherData(stationId, APIKEY);
-                }
-            }
-            // (string memory stationId) = abi.decode(performData, (string));
-
-            // if (activeStations[stationId]) {
+            // // Request weather data for each active station
+            // for (uint i = 0; i < stationCount; i++) {
+            //     string memory stationId = stationIdByIndex[i];
+            //     if (activeStations[stationId]) {
             //         requestWeatherData(stationId, APIKEY);
+            //     }
             // }
+            string memory stationId = string(performData);
+
+            if (activeStations[stationId]) {
+                    requestWeatherData(stationId, APIKEY);
+            }
             
             emit AutomationPerformed(block.timestamp, stationCount);
         }
+    }
+
+    function toBytes(string memory data) public  pure returns (bytes memory) {
+        return bytes(data);
     }
 
     /**
