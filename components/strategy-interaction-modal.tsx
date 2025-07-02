@@ -20,7 +20,11 @@ import {
   SelectItem,
   Input,
   Checkbox,
-  Textarea
+  Textarea,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Avatar
 } from '@heroui/react';
 import { 
   Zap, 
@@ -53,6 +57,7 @@ export function StrategyInteractionModal({ isOpen, onClose, strategy }: Strategy
   const [loadingUserData, setLoadingUserData] = useState(false);
   const [tokenAddress, setTokenAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
+  const [openTokenSelector, setOpenTokenSelector] = useState(false);
 
   const {
     actionInputs,
@@ -419,16 +424,41 @@ export function StrategyInteractionModal({ isOpen, onClose, strategy }: Strategy
                                           <label className="block text-sm font-medium text-gray-400 mb-2">
                                             Token Address
                                           </label>
+                                         
                                           <Input
                                             placeholder="0x... (token contract address)"
                                             value={tokenAddress}
                                             onChange={(e) => setTokenAddress(e.target.value)}
+                                            onClick={()=> setOpenTokenSelector(true)}
                                             variant="bordered"
                                             classNames={{
                                               input: "text-white bg-transparent",
                                               inputWrapper: "ondo-input-wrapper border-amber-500/20"
                                             }}
                                           />
+                                          <div className=" mt-1 bg-gray-900 rounded-xl">
+                                            {
+                                              openTokenSelector  && strategy.chains.find((c)=> c.chainId == selectedChain)?.validTokens?.map((token) =>{
+                                                return <div
+                                                onClick={() => {
+                                                  setTokenAddress(token.address);
+                                                  setOpenTokenSelector(false);
+                                                }}
+                                                
+                                                className=' flex items-center m-2 bg-gray-800 text-white gap-2 p-2 rounded-xl hover:bg-gray-700 cursor-pointer'>
+                                                    
+                                                  <Avatar
+                                                    src={token.logoUrl || '/default-token.png'}
+                                                    alt={token.symbol}
+                                                    className="w-6 h-6 rounded-full mr-2"
+                                                  />
+                                                  <span className="text-sm text-white">{token.name}</span>
+
+
+                                                </div>
+                                              } )
+                                            }
+                                          </div>
                                         </div>
                                         <div>
                                           <label className="block text-sm font-medium text-gray-400 mb-2">

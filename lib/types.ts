@@ -12,6 +12,7 @@ export interface Strategy {
   logoUrl: string;
   actions: StrategyAction[]; // Predefined actions instead of ABI
   tags: string[];
+ 
 }
 
 export interface ChainDeployment {
@@ -20,6 +21,14 @@ export interface ChainDeployment {
   strategyAddress: string;
   routerAddress: string;
   isActive: boolean;
+   logo?: string; // Optional logo URL for the strategy
+  validTokens?: {
+    name:string;
+    address: string;
+    symbol: string;
+    decimals: number;
+    logoUrl?: string; // Optional logo URL for tokens
+  }[]; // List of valid tokens for the strategy
 }
 
 export interface StrategyAction {

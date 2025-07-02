@@ -162,6 +162,15 @@ export function useCrossChainInteraction() {
       const encodedData = encodeActionParameters(action, inputs);
       const id = getChainUID(selectedChain)!
 
+      const token = targetChain.validTokens?.find(t => t.address === tokenAddress);
+      if (!token && tokenAddress) {
+        toast.error(`Token ${tokenAddress} not supported on target chain`);
+        return;
+      }
+      if (token) {
+        tokenAddress = token.address;
+        tokenAmount = tokenAmount ? parseUnits(tokenAmount, token.decimals).toString() : '0';
+      } 
       console.log(id, tokenAmount)
       // return ;
       // Prepare cross-chain execution data
@@ -171,7 +180,7 @@ export function useCrossChainInteraction() {
         strategy: targetChain.strategyAddress,
         action: action.id,
         token: tokenAddress || '0x0000000000000000000000000000000000000000',
-        amount: parseEther(tokenAmount!).toString() || '0',
+        amount: tokenAmount,
         data: encodedData
       };
       console.log('Executing action with execution data:', execution);

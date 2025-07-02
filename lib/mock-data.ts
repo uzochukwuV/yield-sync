@@ -3,8 +3,8 @@ import { Strategy, UserPosition, Transaction, PlatformMetrics, ChartData, Chain 
 export const mockStrategies: Strategy[] = [
   {
   "id": "simple-usdc-vault",
-  "name": "Simple Multi-Asset Vault",
-  "description": "Basic vault allowing deposits and withdrawals of supported ERC-20 tokens",
+  "name": "Simple USDC Vault",
+  "description": "Basic vault allowing deposits and withdrawals of supported USDC ERC-20 tokens",
   "protocol": "Custom Vault",
   "chains": [
     {
@@ -12,14 +12,132 @@ export const mockStrategies: Strategy[] = [
       "chainName": "Base Sepolia",
       "strategyAddress": "0x0687c557BcF088922Df1A54392c45BEdaDc8118F",
       "routerAddress": "0x0b08a6b201D4Da4Ea3F40EA3156f303B7afB0e6a",
-      "isActive": true
+      "isActive": true,
+      "logo": "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+      "validTokens": [
+         {
+          "name": "USDC",
+        "address": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "symbol": "USDC",
+        "decimals": 6,
+        "logoUrl": "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+      }
+      ]
     },
     {
       "chainId": 11155111,
       "chainName": "Etherum Sepolia",
       "strategyAddress": "0xa018DbBF743d9A7b5741e13c21152942A5947cB4", //"0xd23a73375F06038B8EaC7FAbf0A14f6E571bBa2F",
       "routerAddress": "0xe0d40a806723a0b4B1DcF8F2cEAB6f90D84Ce0Ed",
-      "isActive": true
+      "isActive": true,
+       "validTokens": [
+         {
+          "name": "USDC",
+        "address": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238",
+        "symbol": "USDC",
+        "decimals": 6,
+        "logoUrl": "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+      }
+      ]
+    }
+  ],
+  "category": "yield",
+  "apy": 0.0,
+  "tvl": 0,
+  "riskLevel": "low",
+  "isActive": true,
+  "logoUrl": "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+  "actions": [
+    {
+      "id": 1,
+      "name": "Deposit",
+      "description": "Deposit ERC-20 tokens into the vault",
+      "type": "deposit",
+      "parameters": [
+        {
+          "name": "token",
+          "type": "address",
+          "description": "Address of the token to deposit",
+          "required": true
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "description": "Amount of tokens to deposit",
+          "required": true,
+          "validation": { "min": "0" }
+        }
+      ],
+      "isReadOnly": false,
+      "requiresToken": true,
+      "requiresApproval": true,
+      "estimatedGas": 70000
+    },
+    {
+      "id": 2,
+      "name": "Withdraw",
+      "description": "Withdraw tokens from the vault",
+      "type": "withdraw",
+      "parameters": [
+        {
+          "name": "token",
+          "type": "address",
+          "description": "Address of the token to withdraw",
+          "required": true
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "description": "Amount of tokens to withdraw",
+          "required": true,
+          "validation": { "min": "0" }
+        }
+      ],
+      "isReadOnly": false,
+      "requiresToken": false,
+      "requiresApproval": false,
+      "estimatedGas": 70000
+    }
+  ],
+  "tags": ["Vault", "ERC-20", "Base Sepolia", "Custom Strategy"]
+},
+{
+  "id": "simple-usdc-vault-v2",
+  "name": "Simple USDC Vault Version 2",
+  "description": "Basic vault allowing deposits and withdrawals of supported USDC ERC-20 tokens with balance tracking ",
+  "protocol": "Custom Vault",
+  "chains": [
+    {
+      "chainId": 84532,
+      "chainName": "Base Sepolia",
+      "strategyAddress": "0x8057D7228bC5e33839d68F1D0df2c48f14d05e0A",
+      "routerAddress": "0x0b08a6b201D4Da4Ea3F40EA3156f303B7afB0e6a",
+      "isActive": true,
+       "validTokens": [
+         {
+          "name": "USDC",
+        "address": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "symbol": "USDC",
+        "decimals": 6,
+        "logoUrl": "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+      }
+      ]
+    },
+    {
+      "chainId": 11155111,
+      "chainName": "Etherum Sepolia",
+      "strategyAddress": "0x931e6b5560d7C3d68422cC6FCbF76e2789DB5d46", //"0xd23a73375F06038B8EaC7FAbf0A14f6E571bBa2F",
+      "routerAddress": "0xe0d40a806723a0b4B1DcF8F2cEAB6f90D84Ce0Ed",
+      "isActive": true,
+       "validTokens": [
+         {
+          "name": "USDC",
+        "address": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238",
+        "symbol": "USDC",
+        "decimals": 6,
+        "logoUrl": "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+      }
+      ]
     }
   ],
   "category": "yield",
