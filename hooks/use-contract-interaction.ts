@@ -6,7 +6,7 @@ import { parseEther } from 'viem';
 import { ABIFunction, FunctionResult } from '@/lib/types';
 import { validateInput, isViewFunction, isPayableFunction } from '@/lib/abi-utils';
 import { toast } from 'sonner';
-import { write } from 'node:fs';
+
 
 export function useContractInteraction(contractAddress: string, abi: any[]) {
   const { address } = useAccount();
