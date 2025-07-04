@@ -44,6 +44,7 @@ import {
 import { Strategy, StrategyAction } from '@/lib/types';
 import { useCrossChainInteraction } from '@/hooks/use-cross-chain-interaction';
 import { getInputType, getInputPlaceholder } from '@/lib/encoding-utils';
+import { useAccount } from 'wagmi';
 
 interface StrategyInteractionModalProps {
   isOpen: boolean;
@@ -58,6 +59,7 @@ export function StrategyInteractionModal({ isOpen, onClose, strategy }: Strategy
   const [tokenAddress, setTokenAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
   const [openTokenSelector, setOpenTokenSelector] = useState(false);
+  const {chainId} = useAccount()
 
   const {
     actionInputs,
@@ -327,6 +329,7 @@ export function StrategyInteractionModal({ isOpen, onClose, strategy }: Strategy
                   <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
                     <TrendingUp className="w-5 h-5 mr-2 text-green-400" />
                     Execute Strategy Actions
+                    <p>Connected chain {chainId}</p>
                   </h3>
                   
                   {strategy.actions.length > 0 ? (
@@ -438,7 +441,7 @@ export function StrategyInteractionModal({ isOpen, onClose, strategy }: Strategy
                                           />
                                           <div className=" mt-1 bg-gray-900 rounded-xl">
                                             {
-                                              openTokenSelector  && strategy.chains.find((c)=> c.chainId == selectedChain)?.validTokens?.map((token) =>{
+                                              openTokenSelector  && strategy.chains.find((c)=> c.chainId == chainId)?.validTokens?.map((token) =>{
                                                 return <div
                                                 onClick={() => {
                                                   setTokenAddress(token.address);

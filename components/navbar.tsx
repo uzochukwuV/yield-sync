@@ -45,10 +45,10 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Mock admin check - in real app, this would check against admin addresses
-  const isAdmin = address === '0x742d35cc44c4532Af39C5FEB97bFb4B7B5C8c5A2' || true; // Allow all for demo
+  const isAdmin = address === '0xa7793C5c4582C72B3aa5e78859d8Bd66998D43ce'; // Allow all for demo
 
   const visibleNavigation = isConnected ? navigation : [];
-  const allNavigation = isAdmin ? [...visibleNavigation, ...adminNavigation] : visibleNavigation;
+  const allNavigation = isAdmin && address ? [...visibleNavigation, ...adminNavigation] : visibleNavigation;
 
   return (
     <HeroNavbar 
@@ -56,7 +56,8 @@ export function Navbar() {
       onMenuOpenChange={setIsMenuOpen}
       className="ondo-nav"
       maxWidth="full"
-      height="72px"
+      height="120px"
+      
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -101,7 +102,7 @@ export function Navbar() {
                 >
                   <Icon className="w-4 h-4" />
                   <span>{item.name}</span>
-                  {isAdminRoute && (
+                  {isAdminRoute && !isAdmin && (
                     <span className="ondo-chip-danger text-xs ml-1">Admin</span>
                   )}
                 </Link>
