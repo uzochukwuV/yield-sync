@@ -110,7 +110,7 @@ export const mockStrategies: Strategy[] = [
     {
       "chainId": 84532,
       "chainName": "Base Sepolia",
-      "strategyAddress": "0x8057D7228bC5e33839d68F1D0df2c48f14d05e0A",
+      "strategyAddress": "0x06eA0a1656A108da2A2c04cCA75064885A98a19e",
       "routerAddress": "0x413C4429C496baF4149b6cB8e770C8455C02d7f5",
       "isActive": true,
        "validTokens": [
@@ -126,7 +126,7 @@ export const mockStrategies: Strategy[] = [
     {
       "chainId": 11155111,
       "chainName": "Etherum Sepolia",
-      "strategyAddress": "0x931e6b5560d7C3d68422cC6FCbF76e2789DB5d46", //"0xd23a73375F06038B8EaC7FAbf0A14f6E571bBa2F",
+      "strategyAddress": "0xdF4d4E90f1c17dc8D232AE85d713bA0Cab76cbdE",
       "routerAddress": "0xf1D72E025e9013445b4A767bc687f231a0520919",
       "isActive": true,
        "validTokens": [

@@ -19,33 +19,42 @@ contract Vault is IYieldStrategy {
     error Vault__FailedToWithdraw(address to, uint256 amount);
     error Invalid__Action(uint64 action);
 
-    event ExecutionSucess(bytes data);
-    
+
+    // usdc addres  on base sepolia
+    IERC20 usdc = IERC20(0x036CbD53842c5426634e7929541eC2318f3dCF7e);
+
+  // 0x0b08a6b201D4Da4Ea3F40EA3156f303B7afB0e6a
+  // 0x931e6b5560d7C3d68422cC6FCbF76e2789DB5d46
 
     uint64 public constant DEPOSIT_ACTION = 1;
     uint64 public constant WITHDRAW_ACTION =2 ;
 
     function executeFunction(
-        address sender,
+        address ,
         uint64 action,
         address token,
         uint256 amount,
         bytes calldata data
     ) external returns (bool success, bytes memory result){
+        require(token == address(usdc), "INVALID_TOKEN");
+
 
         if(action == DEPOSIT_ACTION ){
             if (token == address(0) ) {
                 revert Vault__FailedToDeposit(address(0), amount);
             }
-            deposit(sender, token, amount);
-            emit ExecutionSucess(data);
+            // u can decode data to get relavant
+            (address acc, ,  ) = abi.decode(data, (address, address, uint256));
+            deposit(acc, token, amount);
+            
             return (true, "Success");
         }else if(action == WITHDRAW_ACTION) {
             if (token == address(0) ) {
                 revert Vault__FailedToWithdraw(address(0), amount);
             }
-            withdraw(amount, token, sender);
-            emit ExecutionSucess(data);
+             (address acc, ,  ) = abi.decode(data, (address, address, uint256));
+            withdraw(acc, token, amount);
+            
             return (true, "Success");
         }else {
             revert Invalid__Action(action);
@@ -56,6 +65,7 @@ contract Vault is IYieldStrategy {
     function getBalance(address user) public view returns (uint256) {
         return balances[user];
     }
+    // r   0x8b89815cd00BE3D48465a4C7674D4f7F64D45250   v 0x2422c5B06CE0d790cd9A4a3FdE6C7923648F4aaC
 
     // Allow anyone to deposit USDC
     // Make sure you approve this contract before calling!
@@ -65,7 +75,7 @@ contract Vault is IYieldStrategy {
         emit Deposit(account, amount);
     }
 
-    function withdraw(uint256 amount,address token, address sender) public {
+    function withdraw(address sender,address token,  uint256 amount ) public {
         if(balances[sender] < amount) {
             revert Vault__InsufficientBalance(balances[sender], amount);
         }
@@ -105,4 +115,9 @@ contract Vault is IYieldStrategy {
         }
     }
 
+    function userPositions(address user) external view returns (TokenBalance[] memory positions){
+        positions[0] = TokenBalance(balances[user] ,address(usdc));
+    }
+
+    
 }

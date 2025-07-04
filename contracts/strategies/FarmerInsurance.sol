@@ -11,8 +11,8 @@ import {ReentrancyGuard} from "@openzeppelin/contracts@5.2.0/utils/ReentrancyGua
 
 /**
  * @title WeatherInsurance
- * @author Manus AI
- * @notice A decentralized weather insurance contract using Chainlink Functions, Automation, and Price Feeds
+ * @author Victor Ezealor
+ * @notice A decentralized weather insurance contract using Chainlink Functions, Automation, and Price Feeds utilizing weatherxm api
  * @dev This contract allows farmers to purchase weather insurance policies and receive automated payouts based on weather conditions
  */
 contract WeatherInsurance is FunctionsClient, AutomationCompatibleInterface, Ownable, ReentrancyGuard {

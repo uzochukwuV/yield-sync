@@ -15,7 +15,7 @@ import {RouterEvents} from "./RouterEvents.sol";
 import {RouterErrors} from "./RouterErrors.sol";
 
 /**
- * @title Router
+ * @title Yield Sync Protocol(Uniting cross chain Yields)
  * @dev Cross-chain router for yield strategies using Chainlink CCIP
  * @author YourTeam
  */
@@ -30,8 +30,8 @@ contract Router is
     using SafeERC20 for IERC20;
 
     // Immutable variables
-    IERC20 private immutable LINK_TOKEN;
-    IRouterClient public immutable ROUTER;
+    IERC20 public  immutable LINK_TOKEN;
+    uint256 public sent;
 
     modifier validChain(uint64 chainSelector) {
         if (!chains[chainSelector]) revert ChainNotSupported(chainSelector);
@@ -66,7 +66,6 @@ contract Router is
         if (_router == address(0) || _link == address(0)) {
             revert InvalidReceiver(address(0));
         }
-        ROUTER = IRouterClient(_router);
         LINK_TOKEN = IERC20(_link);
     }
 
@@ -90,7 +89,8 @@ contract Router is
     {
         if (receiver == address(0)) revert InvalidReceiver(receiver);
 
-        return _executeCrossChain(
+      
+         return _executeCrossChain(
             destinationChain,
             receiver,
             strategy,
@@ -99,35 +99,7 @@ contract Router is
             amount,
             data
         );
-    }
-
-    /**
-     * @dev Asynchronous cross-chain execution
-     */
-    function crossChainAsync(
-        uint64 destinationChain,
-        address protocol,
-        uint64 action,
-        address token,
-        uint256 amount,
-        bytes calldata data
-    ) 
-        external 
-        validChain(destinationChain)
-        validProtocol(destinationChain, protocol)
-        returns (bytes32 messageId) 
-    {
-        if (amount == 0) revert InvalidAmount(amount);
-
-        return _executeCrossChain(
-            destinationChain,
-            protocol,
-            protocol, // strategy same as protocol in async mode
-            action,
-            token,
-            amount,
-            data
-        );
+     
     }
 
     /**
@@ -142,9 +114,10 @@ contract Router is
         uint256 amount,
         bytes calldata data
     ) internal returns (bytes32 messageId) {
+        uint64 chainSelector = destinationChain;
         // Transfer tokens from user
         IERC20(token).safeTransferFrom(msg.sender, address(this), amount);
-        IERC20(token).approve(address(ROUTER), amount);
+        IERC20(token).approve(address(this.getRouter()), amount);
 
         // Prepare token amounts
         Client.EVMTokenAmount[] memory tokenAmounts = new Client.EVMTokenAmount[](1);
@@ -154,7 +127,7 @@ contract Router is
         });
 
         // Prepare payload
-        bytes memory payload = abi.encode(msg.sender, strategy, action, token, amount, data);
+        bytes memory payload = abi.encode(strategy, action, data);
 
         // Prepare CCIP message
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
@@ -166,22 +139,30 @@ contract Router is
             ),
             feeToken: address(LINK_TOKEN)
         });
+        IRouterClient router = IRouterClient(this.getRouter());
 
         // Calculate and check fee
-        uint256 ccipFee = ROUTER.getFee(destinationChain, message);
+        uint256 ccipFee = router.getFee(chainSelector, message);
         uint256 linkBalance = LINK_TOKEN.balanceOf(address(this));
         if (linkBalance < ccipFee) {
             revert InsufficientLinkBalance(ccipFee, linkBalance);
         }
 
         // Approve and send
-        LINK_TOKEN.safeIncreaseAllowance(address(ROUTER), ccipFee);
-        messageId = ROUTER.ccipSend(destinationChain, message);
+        if (token  == address(LINK_TOKEN)){
+            LINK_TOKEN.safeIncreaseAllowance(address(this.getRouter()), ccipFee);
+        }else {
+            LINK_TOKEN.approve(address(this.getRouter()), ccipFee);
+        }
 
+        
+        messageId = router.ccipSend(chainSelector, message);
+        
+        
         emit CrossChainExecuted(
             messageId,
             msg.sender,
-            destinationChain,
+            chainSelector,
             token,
             amount,
             ccipFee,
@@ -197,8 +178,8 @@ contract Router is
     function _ccipReceive(
         Client.Any2EVMMessage memory any2EvmMessage
     ) internal override {
-        (address user, address strategy, uint64 action, , uint256 amount, bytes memory data) = 
-            abi.decode(any2EvmMessage.data, (address, address, uint64, address, uint256, bytes));
+        ( address strategy, uint64 action, bytes memory data) = 
+            abi.decode(any2EvmMessage.data, (address, uint64, bytes));
 
         receivedMessages++;
 
@@ -210,9 +191,10 @@ contract Router is
         uint256 amountA = any2EvmMessage.destTokenAmounts[0].amount;
 
         // Approve token for strategy if needed
+        (address user) = abi.decode(any2EvmMessage.sender, (address));
         
-        if (amountA == amount && amountA > 0) {
-            IERC20(tokenA).approve(strategy, amount);
+        if (amountA > 0) {
+            IERC20(tokenA).approve(strategy, amountA);
         }
 
         // Execute strategy
@@ -381,33 +363,23 @@ contract Router is
         emit ActionConfigured(strategy, action, true);
     }
 
-    function setStrategyAction(
-        uint64 chainSelector,
-        address protocol,
-        address strategy,
-        uint64 action
-    ) external onlyOwner {
-        protocols[chainSelector][protocol] = true;
-        strategies[protocol][strategy] = true;
-        actions[strategy][action] = true;
-        
-        emit ProtocolConfigured(chainSelector, protocol, true);
-        emit StrategyConfigured(protocol, strategy, true);
-        emit ActionConfigured(strategy, action, true);
-    }
-
-    function setProtocol(uint64 chainSelector, address protocol, bool allowed)
-        external
-        onlyOwner
-    {
-        protocols[chainSelector][protocol] = allowed;
-        emit ProtocolConfigured(chainSelector, protocol, allowed);
-    }
-
-
     
-    // View functions for testing
-    function test_safeTransferFrom(uint256 amount) external {
-        LINK_TOKEN.safeTransferFrom(msg.sender, address(this), amount);
+    /// @notice Allows the owner of the contract to withdraw all tokens of a specific ERC20 token.
+    /// @dev This function reverts with a 'NothingToWithdraw' error if there are no tokens to withdraw.
+    /// @param _beneficiary The address to which the tokens will be sent.
+    /// @param _token The contract address of the ERC20 token to be withdrawn.
+    function withdrawToken(
+        address _beneficiary,
+        address _token
+    ) public onlyOwner {
+        // Retrieve the balance of this contract
+        uint256 amount = IERC20(_token).balanceOf(address(this));
+
+        // Revert if there is nothing to withdraw
+        if (amount == 0) revert NothingToWithdraw();
+
+        IERC20(_token).safeTransfer(_beneficiary, amount);
     }
+
+     receive() external payable {}
 }
