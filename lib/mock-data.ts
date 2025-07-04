@@ -103,7 +103,7 @@ export const mockStrategies: Strategy[] = [
 },
 {
   "id": "simple-usdc-vault-v2",
-  "name": "Simple USDC Vault Version 2",
+  "name": "Simple USDC Vault Un2",
   "description": "Basic vault allowing deposits and withdrawals of supported USDC ERC-20 tokens with balance tracking ",
   "protocol": "Custom Vault",
   "chains": [
@@ -111,7 +111,7 @@ export const mockStrategies: Strategy[] = [
       "chainId": 84532,
       "chainName": "Base Sepolia",
       "strategyAddress": "0x8057D7228bC5e33839d68F1D0df2c48f14d05e0A",
-      "routerAddress": "0x0b08a6b201D4Da4Ea3F40EA3156f303B7afB0e6a",
+      "routerAddress": "0x413C4429C496baF4149b6cB8e770C8455C02d7f5",
       "isActive": true,
        "validTokens": [
          {
@@ -127,12 +127,112 @@ export const mockStrategies: Strategy[] = [
       "chainId": 11155111,
       "chainName": "Etherum Sepolia",
       "strategyAddress": "0x931e6b5560d7C3d68422cC6FCbF76e2789DB5d46", //"0xd23a73375F06038B8EaC7FAbf0A14f6E571bBa2F",
-      "routerAddress": "0xe0d40a806723a0b4B1DcF8F2cEAB6f90D84Ce0Ed",
+      "routerAddress": "0xf1D72E025e9013445b4A767bc687f231a0520919",
       "isActive": true,
        "validTokens": [
          {
           "name": "USDC",
-        "address": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238",
+        "address": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+        "symbol": "USDC",
+        "decimals": 6,
+        "logoUrl": "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+      }
+      ]
+    }
+  ],
+  "category": "yield",
+  "apy": 0.0,
+  "tvl": 0,
+  "riskLevel": "low",
+  "isActive": true,
+  "logoUrl": "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+  "actions": [
+    {
+      "id": 1,
+      "name": "Deposit",
+      "description": "Deposit ERC-20 tokens into the vault",
+      "type": "deposit",
+      "parameters": [
+        {
+          "name": "token",
+          "type": "address",
+          "description": "Address of the token to deposit",
+          "required": true
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "description": "Amount of tokens to deposit",
+          "required": true,
+          "validation": { "min": "0" }
+        }
+      ],
+      "isReadOnly": false,
+      "requiresToken": true,
+      "requiresApproval": true,
+      "estimatedGas": 70000
+    },
+    {
+      "id": 2,
+      "name": "Withdraw",
+      "description": "Withdraw tokens from the vault",
+      "type": "withdraw",
+      "parameters": [
+        {
+          "name": "token",
+          "type": "address",
+          "description": "Address of the token to withdraw",
+          "required": true
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "description": "Amount of tokens to withdraw",
+          "required": true,
+          "validation": { "min": "0" }
+        }
+      ],
+      "isReadOnly": false,
+      "requiresToken": false,
+      "requiresApproval": false,
+      "estimatedGas": 70000
+    }
+  ],
+  "tags": ["Vault", "ERC-20", "Base Sepolia", "Custom Strategy"]
+},
+// 0xF51b69a55A79275D2a0f4e36c8cAf02d6251f9DC
+{
+  "id": "simple-usdc-vault-v2",
+  "name": "Simple USDC Vault Controlled 2.2",
+  "description": "Basic vault allowing deposits and withdrawals of supported USDC ERC-20 tokens with balance tracking ",
+  "protocol": "Custom Vault",
+  "chains": [
+    {
+      "chainId": 84532,
+      "chainName": "Base Sepolia",
+      "strategyAddress": "0x14a44d68794B0E045315d7E1daDbb9d9074de5E7",
+      "routerAddress": "0x899dCC73CB91c204750cEE87cFc593fDf38a7E61",
+      "isActive": true,
+       "validTokens": [
+         {
+          "name": "USDC",
+        "address": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "symbol": "USDC",
+        "decimals": 6,
+        "logoUrl": "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+      }
+      ]
+    },
+    {
+      "chainId": 11155111,
+      "chainName": "Etherum Sepolia",
+      "strategyAddress": "0x24cfe2f3d6b429841B4182e3a5B4fb4Ed9a1A699", //"0xd23a73375F06038B8EaC7FAbf0A14f6E571bBa2F",
+      "routerAddress": "0xCc19b5D412F4e10b304C898621C9F8949F686C83",
+      "isActive": true,
+       "validTokens": [
+         {
+          "name": "USDC",
+        "address": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
         "symbol": "USDC",
         "decimals": 6,
         "logoUrl": "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
@@ -200,7 +300,6 @@ export const mockStrategies: Strategy[] = [
   ],
   "tags": ["Vault", "ERC-20", "Base Sepolia", "Custom Strategy"]
 }
-
 ];
 
 export const mockUserPositions: UserPosition[] = [
